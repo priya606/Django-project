@@ -1,1 +1,1 @@
-web: gunicorn newport.wsgi --log-file -
+web: gunicorn newport.wsgi

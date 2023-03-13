@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path,os
+import django_heroku
+import dj_database_url
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +29,7 @@ SECRET_KEY = 'django-insecure-2-=5^roy42(d96l^crde1*=_5k)h-tc2o2c2u)f3v)%t(t7$o5
 DEBUG = True
 #EMAIL SETTINGS
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -39,11 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'newport',
-
-    'base',
-    'userauths',
-    'taggit',
-    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'newport.urls'
@@ -125,11 +124,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT=os.path.join(BASE_DIR,'staticfiles')
-STATIC_FILES_DIRS={
-    os.path.join(BASE_DIR,"temp/website"),
-}
 
+STATICFILES_DIRS=[
+    os.path.join(BASE_DIR,'static'),
+]
+
+STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -142,3 +142,5 @@ EMAIL_PORT=587
 EMAIL_HOST_USER="sheelasaipriya@gmail.com"
 EMAIL_HOST_PASSWORD="fpwatjdalldlruyt"
 EMAIL_USE_TLS=True
+
+django_heroku.settings(locals())
